@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz 23 Años</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Great Vibes', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: #555;
+            margin-top: 20px;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .photo-frame {
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .clue-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .clue-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #d4af37 0%, #e8c547 100%);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .clue-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .clue-btn.revealed {
+            background: linear-gradient(135deg, #90EE90 0%, #98FB98 100%);
+        }
+
+        .clue-display {
+            min-height: 100px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: #555;
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 80%;
+        }
+
+        .option-btn:hover {
+            background: #d4af37;
+            color: white;
+        }
+
+        .option-btn.correct {
+            background: linear-gradient(135deg, #90EE90 0%, #98FB98 100%);
+            border-color: #28a745;
+        }
+
+        .option-btn.incorrect {
+            background: linear-gradient(135deg, #ffcccc 0%, #ff9999 100%);
+            border-color: #dc3545;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            p { font-size: 1.2rem; }
+            img { max-height: 300px; }
+            .clue-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                margin: 0;
+                padding: 0;
+            }
+            .clue-btn {
+                width: 150px;
+                height: 50px;
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+            .slide h1 {
+                margin: 0;
+                padding: 0;
+            }
+            .cont-img {
+                img {
+                    width: 5px;
+                }
+            }
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            font-family: 'Montserrat', sans-serif;
+            z-index: 100;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #d4af37;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        button:hover {
+            background-color: #e8c547;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            font-family: 'Montserrat', sans-serif;
+            color: #999;
+            font-size: 0.9rem;
+            z-index: 100;
+        }
+        .slide:last-child {
+            .cont-img {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                img {
+                    margin: 0px 25px;
+                    width: 250px;
+                    height: 250px;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">5</span>
+    </div>
+
+    <div class="container" id="mainContainer">
+        
+        <!-- Diapositiva 1: Portada -->
+        <div class="slide active">
+            <h1>Feliz 23 Años</h1>
+            <div class="click-hint">Click para continuar</div>
+        </div>
+
+        <!-- Diapositiva 2: Feliz Cumpleaños con foto -->
+        <div class="slide">
+            <h1>Feliz Cumpleaños</h1>
+            <div class="photo-frame">
+                <img src="img/foto1.jpg" alt="Foto de cumpleaños">
+            </div>
+        </div>
+
+        <!-- Diapositiva 3: Texto romántico -->
+        <div class="slide">
+            <h1>Un mensaje especial...</h1>
+            <p>
+                Queda pendiente
+            </p>
+        </div>
+
+        <!-- Diapositiva 4: Juego de pistas -->
+        <div class="slide">
+            <h1 id="tittle">Descubre las pistas</h1>
+            <div class="game-container">
+                <div class="clue-display" id="clueDisplay">
+                    Haz clic en los botones para revelar las pistas...
+                </div>
+                <div class="clue-buttons">
+                    <button class="clue-btn" onclick="revealClue(1)">Pista 1</button>
+                    <button class="clue-btn" onclick="revealClue(2)">Pista 2</button>
+                    <button class="clue-btn" onclick="revealClue(3)">Pista 3</button>
+                    <button class="clue-btn" onclick="revealClue(4)">Pista 4</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diapositiva 5: Mensaje Final -->
+        <div class="slide">
+            <h1>💝</h1>
+            <p>
+                Enhorabuenaa lo has conseguidoo!! <br>
+                Nos vamos a Madrid!!
+            </p>
+            <div class="cont-img">
+                <img src="img/pe.webp" alt="Foto bonita">
+                <img src="img/pw.jpeg" alt="Foto bonita">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="previousSlide()">← Anterior</button>
+        <button id="nextBtn" onclick="nextSlide()">Siguiente →</button>
+    </div>
+
+    <script>
+        const container = document.body;
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        // Datos de las pistas
+        const clueData = {
+            1: "¿Cómo crees que vas a llegar a tu regalo?",
+            2: "¿Qué actividades crees que vamos a hacer?",
+            3: "¿Y lo que más nos gusta? ¿Y a comer???",
+            4: "¿Cual crees que será nuestro destino?"
+        };
+        
+        // Opciones para cada pista
+        const opciones = {
+            1: [
+                "En un avión",
+                "En un coche",
+                "En un tren",
+                "En una bicicleta"
+            ],
+            2: ["Parque de atracciones", "Playa", "Museo", "Concierto"],
+            3: ["Amazonico", "Hiki Sushi", "Voy volando", "Burger King"],
+            4: ["Madrid", "Huétor Tájar", "París", "Oporto"]
+        };
+
+        // Respuestas correctas para cada pista
+        const respuestasCorrectas = {
+            1: "En un tren",
+            2: "Parque de atracciones",
+            3: "Amazonico",
+            4: "Madrid"
+        };
+
+        function updateSlide() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function revealClue(clueNumber) {
+            const clueDisplay = document.getElementById('clueDisplay');
+            const button = event.target;
+            
+            // Mostrar la pregunta
+            clueDisplay.innerHTML = `<strong>${clueData[clueNumber]}</strong>`;
+            
+            // Agregar opciones como botones
+            if (opciones[clueNumber]) {
+                opciones[clueNumber].forEach((opcion) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = 'option-btn';
+                    optionBtn.textContent = opcion;
+                    
+                    // Validar si es la respuesta correcta
+                    optionBtn.onclick = () => {
+                        if (opcion === respuestasCorrectas[clueNumber]) {
+                            optionBtn.classList.add('correct');
+                            alert(`¡Correcto! 🎉 ${opcion}`);
+                        } else {
+                            optionBtn.classList.add('incorrect');
+                            alert(`Respuesta incorrecta ❌. Intenta de nuevo.`);
+                        }
+                    };
+                    
+                    clueDisplay.appendChild(optionBtn);
+                });
+            }
+            
+            button.classList.add('revealed');
+            
+            // Animación suave
+            clueDisplay.style.animation = 'none';
+            setTimeout(() => {
+                clueDisplay.style.animation = 'fadeIn 0.5s ease';
+            }, 10);
+        }
+
+        container.addEventListener('click', (e) => {
+            if (!e.target.closest('button')) {
+                nextSlide();
+            }
+        });
+
+        updateSlide();
+    </script>
+
+</body>
+</html>
